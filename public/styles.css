@@ -1,0 +1,325 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  background-color: #2f2f2f; /* cinza escuro */
+  color: #f5f3ec;
+}
+
+img {
+  max-width: 100%;
+}
+
+.site-header {
+  background-color: #e6e6e6; /* cinza claro */
+  color: #111;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px clamp(18px, 4vw, 40px);
+}
+
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  display: block;
+}
+
+.brand-text .brand-title {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #333333; /* cinza escuro */
+}
+
+.brand-text .brand-sub {
+  margin: 4px 0 0;
+  color: #b8b3a8;
+}
+
+
+/* keep old class in case used elsewhere */
+.hero__brand {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #0f172a, #111827);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #f8f1d8;
+}
+
+.hero__brand h1 {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+
+.hero__brand p {
+  margin: 4px 0 0;
+  color: #b8b3a8;
+}
+
+.site-header__menu .menu-button {
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #0f172a;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(320px, 420px);
+  gap: 28px;
+  align-items: center;
+  padding: 0 28px 40px;
+}
+
+.hero-text {
+  padding: 40px 0;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  color: #f9f7ec;
+  opacity: 0.8;
+  letter-spacing: 0.24em;
+  font-size: 0.75rem;
+  margin-bottom: 22px;
+}
+
+.hero-text h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1.02;
+}
+
+.hero-copy {
+  max-width: 610px;
+  color: #ccc5b6;
+  font-size: 1.05rem;
+  margin: 26px 0 32px;
+  line-height: 1.75;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button--primary {
+  background: #f7e2b3;
+  color: #111111;
+}
+
+.button--secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f7f0dd;
+}
+
+.button--outline {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #f7f0dd;
+}
+
+.hero-panel {
+  border-radius: 32px;
+  overflow: hidden;
+  background: rgba(10, 10, 10, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.22);
+}
+
+.hero-panel__image {
+  height: 360px;
+  background-image: url('fachada-dcastro-advogados-associados-advocacia-trabalhista-recife-pe.webp');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-panel__footer {
+  padding: 22px 24px;
+  background: rgba(2, 12, 58, 0.3);
+}
+
+.hero-panel__footer span {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  color: #f8f1d8;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.hero-panel__footer p {
+  margin: 0;
+  color: #cdc5af;
+}
+
+.upload-section {
+  padding: 0 28px 52px;
+}
+
+.upload-card {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px;
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}
+
+.download-section {
+  padding: 24px 28px 72px;
+}
+
+.download-card {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  color: #efe7d6;
+}
+
+.download-card h4 {
+  margin: 0 0 8px;
+}
+
+.download-card .download-link {
+  display: inline-block;
+  margin-top: 12px;
+}
+
+.upload-header span {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: #d6c79f;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.upload-header h3 {
+  margin: 0 0 26px;
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+}
+
+.field {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.field label {
+  font-size: 0.95rem;
+  color: #f5f2e8;
+}
+
+textarea,
+input[type='file'] {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f5f2e8;
+  padding: 18px;
+  font-size: 1rem;
+}
+
+textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+input[type='file'] {
+  padding: 14px 18px;
+}
+
+/* Styled file button */
+.file-field .file-button-wrap {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.file-field input[type='file'] {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.file-trigger {
+  padding: 12px 20px;
+}
+
+.file-name {
+  color: #cfc7b7;
+  font-size: 0.95rem;
+}
+
+.status {
+  margin-top: 16px;
+  color: #d9e8d4;
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .hero-panel__image {
+    height: 260px;
+  }
+}
