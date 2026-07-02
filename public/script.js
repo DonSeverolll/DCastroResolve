@@ -102,3 +102,70 @@ function escapeHtml(s) {
 
 // Load last on start
 fetchLast();
+
+// ---------- Fluxo de IA: enviar PDF e receber PDF processado ----------
+const iaForm = document.getElementById('iaForm');
+const iaFile = document.getElementById('iaFile');
+const iaFileName = document.getElementById('iaFileName');
+const iaStatus = document.getElementById('iaStatus');
+const iaResult = document.getElementById('iaResult');
+const iaTrigger = document.querySelector('.ia-file-trigger');
+
+if (iaTrigger && iaFile) {
+  iaTrigger.addEventListener('click', () => iaFile.click());
+  iaFile.addEventListener('change', () => {
+    const f = iaFile.files[0];
+    iaFileName.textContent = f ? f.name : 'Nenhum arquivo selecionado';
+  });
+}
+
+if (iaForm) {
+  iaForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const file = iaFile.files[0];
+    if (!file) {
+      iaStatus.textContent = 'Selecione um PDF primeiro.';
+      return;
+    }
+    if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) {
+      iaStatus.textContent = 'O arquivo precisa ser um PDF.';
+      return;
+    }
+
+    const iaSubmit = iaForm.querySelector('button[type="submit"]');
+    iaStatus.textContent =
+      'Processando com a IA... documentos grandes são feitos em partes e podem levar alguns minutos. Aguarde.';
+    iaResult.style.display = 'none';
+    iaSubmit.disabled = true;
+    iaSubmit.textContent = 'Processando...';
+
+    const formData = new FormData();
+    formData.append('arquivo', file);
+
+    try {
+      const response = await fetch('/api/processar', { method: 'POST', body: formData });
+      const result = await response.json();
+
+      if (response.ok && result.sucesso) {
+        iaStatus.textContent = 'Pronto! PDF gerado com sucesso.';
+        const reticencias = result.preview && result.preview.length >= 500 ? '…' : '';
+        iaResult.style.display = 'block';
+        iaResult.innerHTML =
+          '<h4>Resultado</h4>' +
+          (result.preview ? `<pre style="white-space:pre-wrap">${escapeHtml(result.preview)}${reticencias}</pre>` : '') +
+          `<a class="button button--outline download-link" href="${result.arquivo}" target="_blank" rel="noopener">Baixar PDF processado</a>`;
+        iaForm.reset();
+        iaFileName.textContent = 'Nenhum arquivo selecionado';
+      } else {
+        iaStatus.textContent = result.error || 'Erro ao processar o arquivo.';
+      }
+    } catch (error) {
+      iaStatus.textContent = 'Falha de conexão. Tente novamente.';
+      console.error(error);
+    } finally {
+      iaSubmit.disabled = false;
+      iaSubmit.textContent = 'Processar com IA';
+    }
+  });
+}

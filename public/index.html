@@ -68,6 +68,28 @@
       </div>
     </section>
 
+    <section id="ia" class="upload-section">
+      <div class="upload-card">
+        <div class="upload-header">
+          <span>Resolver com IA</span>
+          <h3>Envie um PDF e receba a resposta em um novo PDF</h3>
+        </div>
+        <form id="iaForm" enctype="multipart/form-data">
+          <div class="field file-field">
+            <label for="iaFile">Selecionar PDF</label>
+            <div class="file-button-wrap">
+              <button type="button" class="button button--secondary ia-file-trigger">Escolher PDF</button>
+              <input id="iaFile" name="arquivo" type="file" accept="application/pdf,.pdf" />
+              <span id="iaFileName" class="file-name">Nenhum arquivo selecionado</span>
+            </div>
+          </div>
+          <button type="submit" class="button button--primary">Processar com IA</button>
+          <p id="iaStatus" class="status"></p>
+        </form>
+        <div id="iaResult" class="download-card" style="display: none; margin-top: 16px"></div>
+      </div>
+    </section>
+
     <section id="downloads" class="download-section">
       <div class="download-card" id="downloadCard">
         <h4>Arquivos enviados</h4>
