@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
-const bucketName = process.env.SUPABASE_BUCKET || 'uploads';
+const bucketName = process.env.SUPABASE_BUCKET || process.env.SUPABASE_BUCKET_NAME || 'upload';
 
 // Configuração da IA (Llama via Groq — compatível com OpenAI).
 // A chave fica SÓ aqui no backend, nunca no frontend.
