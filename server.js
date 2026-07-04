@@ -538,9 +538,15 @@ app.get('/api/download', async (req, res) => {
   }
 });
 
-const server = app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
-});
-// Documentos grandes são processados em partes e podem levar minutos:
-// desliga o timeout padrão de requisição para não cortar o processamento.
-server.requestTimeout = 0;
+// Localmente (node server.js), sobe o servidor. Na Vercel (serverless),
+// o app é importado como handler — por isso exportamos o app abaixo.
+if (require.main === module) {
+  const server = app.listen(port, () => {
+    console.log(`Servidor rodando em http://localhost:${port}`);
+  });
+  // Documentos grandes são processados em partes e podem levar minutos:
+  // desliga o timeout padrão de requisição para não cortar o processamento.
+  server.requestTimeout = 0;
+}
+
+module.exports = app;
