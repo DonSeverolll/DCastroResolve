@@ -1,0 +1,3 @@
+Conforme as Convenções Coletivas de Trabalho da categoria, as empresas concederão aos seus empregados vale-alimentação no valor de face de R$ 38,06 (trinta e oito reais e seis centavos), efetivamente, por dia trabalhado, a partir do mês de janeiro de 2024.
+
+Ante o exposto, requer o(a) reclamante o pagamento de R$ 38,06 (trinta e oito reais e seis centavos) para cada vale-alimentação não fornecido, no período de {{contrato.admissao}} até {{contrato.demissao}}, por dia trabalhado.

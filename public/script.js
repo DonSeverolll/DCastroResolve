@@ -1,104 +1,84 @@
-const form = document.getElementById('uploadForm');
-const status = document.getElementById('status');
-const fileInput = document.getElementById('fileUpload');
-const fileTrigger = document.querySelector('.file-trigger');
-const fileName = document.getElementById('fileName');
-const downloadInfo = document.getElementById('downloadInfo');
-const submitButton = form.querySelector('button[type="submit"]');
+// Fluxo: envia a ficha (PDF) -> pipeline gera a petição (.docx) -> download + resumo.
+const form = document.getElementById('peticaoForm');
+const fichaInput = document.getElementById('fichaFile');
+const fichaName = document.getElementById('fichaName');
+const status = document.getElementById('peticaoStatus');
+const result = document.getElementById('peticaoResult');
+const trigger = document.querySelector('.ficha-trigger');
+const submitBtn = form.querySelector('button[type="submit"]');
 
-const allowedTypes = [
-  'application/pdf',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'text/plain',
-];
-const maxFileSize = 10 * 1024 * 1024; // 10 MB
+if (trigger && fichaInput) {
+  trigger.addEventListener('click', () => fichaInput.click());
+  fichaInput.addEventListener('change', () => {
+    const f = fichaInput.files[0];
+    fichaName.textContent = f ? f.name : 'Nenhum arquivo selecionado';
+  });
+}
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const file = fileInput.files[0];
-  if (file) {
-    if (!allowedTypes.includes(file.type)) {
-      status.textContent = 'Tipo de arquivo inválido. Use PDF, DOC, DOCX ou TXT.';
-      return;
-    }
-    if (file.size > maxFileSize) {
-      status.textContent = 'O arquivo é muito grande. O limite é 10 MB.';
-      return;
-    }
+  const file = fichaInput.files[0];
+  if (!file) {
+    status.textContent = 'Selecione a ficha de atendimento (PDF).';
+    return;
+  }
+  if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) {
+    status.textContent = 'A ficha precisa ser um PDF.';
+    return;
   }
 
-  status.textContent = 'Enviando...';
-  submitButton.disabled = true;
-  submitButton.textContent = 'Enviando...';
+  status.textContent = 'Lendo a ficha e montando a petição... isso pode levar alguns segundos.';
+  result.style.display = 'none';
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Gerando...';
 
-  const formData = new FormData(form);
+  const formData = new FormData();
+  formData.append('arquivo', file);
 
   try {
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
+    const response = await fetch('/api/peticao', { method: 'POST', body: formData });
+    const data = await response.json();
 
-    const result = await response.json();
-
-    if (response.ok) {
-      status.textContent = 'Dados enviados e armazenados com sucesso.';
-      form.reset();
-      fileName.textContent = 'Nenhum arquivo selecionado';
-      await fetchLast();
+    if (response.ok && data.sucesso) {
+      status.textContent = 'Petição gerada com sucesso!';
+      result.style.display = 'block';
+      result.innerHTML = montarResultado(data);
     } else {
-      status.textContent = result.error || 'Erro ao enviar os dados.';
+      status.textContent = data.error || 'Erro ao gerar a petição.';
     }
-  } catch (error) {
+  } catch (err) {
     status.textContent = 'Falha de conexão. Tente novamente.';
-    console.error(error);
+    console.error(err);
   } finally {
-    submitButton.disabled = false;
-    submitButton.textContent = 'Enviar e armazenar';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Gerar petição';
   }
 });
 
-// File input trigger and display
-if (fileTrigger && fileInput) {
-  fileTrigger.addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', () => {
-    const f = fileInput.files[0];
-    fileName.textContent = f ? f.name : 'Nenhum arquivo selecionado';
-  });
-}
-
-// Fetch last uploaded document and show download link
-async function fetchLast() {
-  try {
-    const res = await fetch('/api/last');
-    if (!res.ok) return;
-    const data = await res.json();
-    if (!data || !data.objectPath) {
-      downloadInfo.textContent = 'Nenhum arquivo enviado ainda.';
-      return;
-    }
-
-    if (data.type === 'file') {
-      const name = data.originalName || 'arquivo';
-      downloadInfo.innerHTML = `Arquivo: ${name} <a class="button button--outline download-link" href="/api/download">Baixar</a>`;
-    } else if (data.prompt) {
-      downloadInfo.innerHTML = `Último prompt salvo: <pre style="white-space:pre-wrap">${escapeHtml(data.prompt)}</pre>`;
-    } else {
-      downloadInfo.textContent = 'Nenhum arquivo enviado ainda.';
-    }
-  } catch (err) {
-    console.error('fetchLast error', err);
-  }
+function montarResultado(data) {
+  const r = data.resumo || {};
+  const teses = (r.blocosGerados || []).map((b) => `<li>${escapeHtml(b)}</li>`).join('');
+  const avisos = (data.avisos || []).map((a) => `<li>${escapeHtml(a)}</li>`).join('');
+  const filename = data.filename || 'peticao.docx';
+  const href = data.arquivo
+    ? data.arquivo
+    : 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + data.docxBase64;
+  return (
+    '<h4>Petição gerada</h4>' +
+    `<p><strong>Reclamante:</strong> ${escapeHtml(r.reclamante || '—')}</p>` +
+    `<p><strong>Reclamadas:</strong> ${escapeHtml((r.reclamadas || []).join('; ') || '—')}</p>` +
+    (teses ? `<p><strong>Teses incluídas (do modelo):</strong></p><ul>${teses}</ul>` : '') +
+    (avisos
+      ? `<p><strong>⚠️ Matérias sem modelo — não geradas (para não inventar):</strong></p><ul>${avisos}</ul>`
+      : '') +
+    `<a class="button button--primary download-link" href="${href}" download="${filename}">Baixar petição (.docx)</a>`
+  );
 }
 
 function escapeHtml(s) {
   if (!s) return '';
-  return s.replace(/[&<>\"']/g, function (c) {
-    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-  });
+  return String(s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+  );
 }
-
-// Load last on start
-fetchLast();

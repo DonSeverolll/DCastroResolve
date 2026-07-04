@@ -1,0 +1,15 @@
+O(a) reclamante foi contratado(a) para trabalhar no regime {{jornada.escala}}, {{jornada.horarioContratual}}.
+
+Na prática, {{jornada.horarioReal}}.
+
+Destaque-se que o(a) reclamante não usufruía regularmente do intervalo intrajornada ({{jornada.intervalo}}), muito embora recebesse um modelo com os horários do contrato de trabalho como se gozasse de 1h de intervalo. As folhas de ponto eram preenchidas e assinadas com o horário contratual, conforme determinação da empresa.
+
+Depreende-se do art. 59-A da CLT que é facultado às partes, mediante acordo individual escrito, convenção coletiva ou acordo coletivo de trabalho, estabelecer horário de trabalho de doze horas seguidas por trinta e seis horas ininterruptas de descanso, observados ou indenizados os intervalos para repouso e alimentação.
+
+A reforma trabalhista ampliou o limite de jornada diária, oportunizando o cumprimento da jornada 12x36, desde que realizada por meio de acordo individual escrito, convenção ou acordo coletivo de trabalho.
+
+Ademais, em que pese tenha a legislação regularizado a jornada especial em regime 12x36, a jurisprudência majoritária do C. TST estabelece que a extrapolação habitual da jornada, ou seja, a realização de horas extras neste tipo de jornada, descaracteriza o regime e impõe o pagamento das horas excedentes à 8ª diária e 44ª semanal (nesse sentido, TST-RR 18616420155170012, 8ª Turma, DEJT 29/04/2022).
+
+Não se admite, portanto, ajuste tácito neste sentido, tampouco a prestação habitual de horas extras, exatamente por tratar-se de regime especial, o qual já afronta à disposição constitucional sobre o limite da duração normal do trabalho (art. 7º, inciso XIII, da CF).
+
+Dessa forma, requer-se a declaração de nulidade da jornada 12x36, eis que não atendida sua finalidade, a fim de que a empresa seja condenada ao pagamento das horas extras excedentes à 8ª diária e 44ª semanal, acrescidas do adicional legal, convencional ou aquele adicional já pago pela empresa (contrato realidade), o que for mais favorável. Por serem habituais, as horas extras integram a remuneração do trabalhador, repercutindo no cálculo das férias + 1/3, 13º salários (S. 45 do TST), depósitos e multa do FGTS (S. 63 do TST) e aviso prévio, refletindo, ainda, no repouso semanal remunerado, nos moldes da Súmula nº 172 do C. TST.
