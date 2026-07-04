@@ -1,0 +1,7 @@
+O(a) reclamante foi contratado(a) pela primeira reclamada para exercer a função de {{contrato.funcao}}, cujos serviços eram prestados para a(s) tomadora(s) de serviço.
+
+Existe entre as reclamadas uma relação incontestável de terceirização de mão de obra, razão pela qual, nos termos da Súmula 331, IV, do TST, deve ser reconhecida a responsabilidade subsidiária da empresa contratante.
+
+No ponto, vale ponderar que o Supremo Tribunal Federal, no julgamento do Recurso Extraordinário 958252 e da ADPF 324, ao reconhecer a licitude da terceirização, manteve a condenação subsidiária da prestadora:
+
+[...] É lícita a terceirização ou qualquer outra forma de divisão do trabalho entre pessoas jurídicas distintas, independentemente do objeto social das empresas envolvidas, mantida a responsabilidade subsidiária da empresa contratante [...].

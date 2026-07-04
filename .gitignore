@@ -1,3 +1,6 @@
 node_modules
 .env
 temp
+
+# arquivos de trabalho/teste (prefixo _)
+_*

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DCastro Resolve</title>
+    <title>DCastro Resolve — Ficha para Petição</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -13,7 +13,7 @@
           <img src="DcastroPNG.png" alt="DCastro" class="logo-img" />
           <div class="brand-text">
             <h1 class="brand-title">DCastro Advogados Associados</h1>
-            <p class="brand-sub">Soluções em software e documentos seguros</p>
+            <p class="brand-sub">Da ficha de atendimento à petição inicial</p>
           </div>
         </div>
         <nav class="site-header__menu">
@@ -24,76 +24,45 @@
 
     <main class="container">
       <section class="hero-text">
-        <p class="eyebrow">Ficha de atendimento</p>
+        <p class="eyebrow">Da ficha à petição</p>
         <p class="hero-copy">
-          Organize suas petições e demandas, garanta prioridade no atendimento e transforme sua rotina em poucos toques.
+          Envie a ficha de atendimento em PDF. O sistema extrai os dados, identifica as matérias e monta a
+          petição inicial no formato do escritório — com timbrado, tópicos e teses — pronta em Word (.docx).
+          Nada é inventado: as teses vêm dos modelos do escritório.
         </p>
         <div class="hero-actions">
-          <a class="button button--secondary" href="#upload">Já tenho conta</a>
-          <a class="button button--outline" href="#upload">Ver como funciona</a>
+          <a class="button button--secondary" href="#peticao">Gerar petição</a>
         </div>
       </section>
 
       <aside class="hero-panel">
         <div class="hero-panel__image"></div>
         <div class="hero-panel__footer">
-          <span>DCastro Resolve</span>
-          <p>Conheça os recursos disponíveis.</p>
+          <span>Pipeline</span>
+          <p>Ficha → Extrator → Classificador → Preenchedor → Validador → DOCX</p>
         </div>
       </aside>
     </main>
 
-    <section id="upload" class="upload-section">
+    <section id="peticao" class="upload-section">
       <div class="upload-card">
         <div class="upload-header">
-          <span>Anexar arquivo ou Prompt</span>
-          <h3>Envie seu arquivo ou descreva seu prompt</h3>
+          <span>Gerar petição inicial</span>
+          <h3>Envie a ficha de atendimento (PDF)</h3>
         </div>
-        <form id="uploadForm" enctype="multipart/form-data">
-          <div class="field">
-            <label for="textPrompt">Prompt / descrição</label>
-            <textarea id="textPrompt" name="prompt" rows="5" placeholder="Digite seu prompt ou mensagem aqui..."></textarea>
-          </div>
+        <form id="peticaoForm" enctype="multipart/form-data">
           <div class="field file-field">
-            <label for="fileUpload">Selecionar arquivo</label>
+            <label for="fichaFile">Ficha de atendimento (.pdf)</label>
             <div class="file-button-wrap">
-              <button type="button" class="button button--secondary file-trigger">Escolher arquivo</button>
-              <input id="fileUpload" name="file" type="file" accept=".pdf,.doc,.docx,.txt" />
-              <span id="fileName" class="file-name">Nenhum arquivo selecionado</span>
+              <button type="button" class="button button--secondary ficha-trigger">Escolher ficha</button>
+              <input id="fichaFile" name="arquivo" type="file" accept="application/pdf,.pdf" />
+              <span id="fichaName" class="file-name">Nenhum arquivo selecionado</span>
             </div>
           </div>
-          <button type="submit" class="button button--primary">Enviar e armazenar</button>
-          <p id="status" class="status"></p>
+          <button type="submit" class="button button--primary">Gerar petição</button>
+          <p id="peticaoStatus" class="status"></p>
         </form>
-      </div>
-    </section>
-
-    <section id="ia" class="upload-section">
-      <div class="upload-card">
-        <div class="upload-header">
-          <span>Resolver com IA</span>
-          <h3>Envie um PDF e receba a resposta em um novo PDF</h3>
-        </div>
-        <form id="iaForm" enctype="multipart/form-data">
-          <div class="field file-field">
-            <label for="iaFile">Selecionar PDF</label>
-            <div class="file-button-wrap">
-              <button type="button" class="button button--secondary ia-file-trigger">Escolher PDF</button>
-              <input id="iaFile" name="arquivo" type="file" accept="application/pdf,.pdf" />
-              <span id="iaFileName" class="file-name">Nenhum arquivo selecionado</span>
-            </div>
-          </div>
-          <button type="submit" class="button button--primary">Processar com IA</button>
-          <p id="iaStatus" class="status"></p>
-        </form>
-        <div id="iaResult" class="download-card" style="display: none; margin-top: 16px"></div>
-      </div>
-    </section>
-
-    <section id="downloads" class="download-section">
-      <div class="download-card" id="downloadCard">
-        <h4>Arquivos enviados</h4>
-        <p id="downloadInfo">Nenhum arquivo enviado ainda.</p>
+        <div id="peticaoResult" class="download-card" style="display: none; margin-top: 16px"></div>
       </div>
     </section>
 

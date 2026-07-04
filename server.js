@@ -5,6 +5,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const pdfParse = require('pdf-parse/lib/pdf-parse.js');
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
+const { gerarPeticaoDaFicha } = require('./peticao/pipeline');
 
 dotenv.config();
 
@@ -450,6 +451,56 @@ async function gerarPdfResposta(textoResposta) {
   const pdfBytes = await pdfDoc.save();
   return Buffer.from(pdfBytes);
 }
+
+// ---------- Pipeline: ficha de atendimento -> petição inicial (.docx) ----------
+app.post('/api/peticao', upload.single('arquivo'), async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) return res.status(400).json({ error: 'Envie a ficha de atendimento em PDF.' });
+    const ehPdf = file.mimetype === 'application/pdf' || /\.pdf$/i.test(file.originalname);
+    if (!ehPdf) return res.status(400).json({ error: 'A ficha deve estar em PDF.' });
+
+    const textoFicha = await extrairTextoPdf(file.buffer);
+    if (!textoFicha) {
+      return res.status(400).json({ error: 'Não foi possível ler o texto da ficha (PDF digitalizado/imagem?).' });
+    }
+
+    const { docx, avisos, resumo } = await gerarPeticaoDaFicha(textoFicha);
+
+    // Persistência no Supabase é OPCIONAL: se o projeto estiver indisponível/pausado,
+    // seguimos com o download direto (base64), sem bloquear a geração.
+    let arquivoUrl = null;
+    try {
+      const timestamp = Date.now();
+      const caminho = `peticoes/${timestamp}-peticao.docx`;
+      const { error } = await supabase.storage.from(bucketName).upload(caminho, docx, {
+        contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        upsert: false,
+      });
+      if (!error) {
+        const { data } = await supabase.storage.from(bucketName).createSignedUrl(caminho, 3600);
+        arquivoUrl = data?.signedUrl || null;
+      } else {
+        console.warn('Supabase indisponível (petição segue por download direto):', error.message);
+      }
+    } catch (e) {
+      console.warn('Supabase indisponível (petição segue por download direto):', e.message);
+    }
+
+    const primeiro = (resumo.reclamante || 'cliente').split(/\s+/)[0].toLowerCase();
+    res.json({
+      sucesso: true,
+      docxBase64: docx.toString('base64'),
+      filename: `peticao-${primeiro}.docx`,
+      arquivo: arquivoUrl,
+      avisos,
+      resumo,
+    });
+  } catch (error) {
+    console.error('Erro em /api/peticao:', error);
+    res.status(500).json({ error: error.message || 'Falha ao gerar a petição.' });
+  }
+});
 
 app.get('/api/last', async (req, res) => {
   try {
