@@ -32,6 +32,11 @@ async function chamarLLM(messages, { maxTokens = 4096, json = false, temperature
       await esperar(wait);
       continue;
     }
+    if (resp.status === 413) {
+      throw new Error(
+        'O arquivo é grande demais para o limite gratuito da IA. Confira se enviou a FICHA DE ATENDIMENTO (e não uma petição pronta). Se a ficha for realmente longa, tente um arquivo menor.'
+      );
+    }
     if (!resp.ok) {
       const t = await resp.text().catch(() => '');
       throw new Error(`IA ${resp.status}: ${t.slice(0, 200)}`);
